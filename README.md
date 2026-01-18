@@ -17,7 +17,14 @@ DataAgent/
 ├── DataAgent/                  # 核心业务模块
 │   ├── datasource/             # 数据源管理
 │   │   ├── __init__.py
-│   │   └── util.py             # 数据源工具函数
+│   │   ├── db_config_read.py   # 数据库配置读取
+│   │   ├── schema_obtain.py    # Schema 获取
+│   │   ├── schema_parse.py     # Schema 解析
+│   │   ├── schema_enhance.py   # Schema 增强（枚举值、表描述）
+│   │   ├── chain.py            # LangChain 链定义
+│   │   ├── util.py             # 数据源工具函数
+│   │   └── prompt/             # Prompt 模板目录
+│   │       └── schema_prompt.py # Schema 相关提示词
 │   │
 │   ├── knowledge/              # 知识库管理
 │   │   ├── __init__.py
@@ -88,8 +95,36 @@ DataAgent/
 核心业务逻辑的实现，按功能模块划分：
 
 #### 3.1 数据源模块 (`datasource/`)
-- 负责数据源的连接、管理和操作
-- 支持多种数据源类型的接入
+- **数据库连接** (`db_config_read.py`)
+  - 支持多种数据库类型：MySQL、PostgreSQL、达梦（DM）
+  - 从配置文件读取数据库连接信息
+  - 统一的 SQLDatabase 实例创建
+
+- **Schema 获取与解析** (`schema_obtain.py`, `schema_parse.py`)
+  - `schema_obtain`: 批量获取表的原始 Schema（CREATE TABLE 语句）
+  - `schema_parse`: 解析单个 CREATE TABLE 语句，提取表名、表注释、字段信息、样例数据
+  - 返回结构化的表信息字典
+
+- **Schema 增强** (`schema_enhance.py`) ⭐
+  - **枚举值增强** (`schema_enum_enhance`)
+    - 自动检测字符串类型的枚举字段
+    - 批量查询 TOP10 最常见的枚举值
+    - 智能合并原注释中已存在的枚举值（避免重复）
+    - 区分完整枚举和部分枚举
+    - 支持多数据库（MySQL、PostgreSQL、达梦）
+
+  - **表描述生成** (`schema_table_description_enhance`)
+    - 使用 LangChain 的 `chain.batch()` 批量生成表描述
+    - 返回 `{表名: 表描述}` 格式
+
+- **LangChain 集成** (`chain.py`)
+  - 定义 LLM 调用链
+  - 表描述生成的 Prompt 模板
+
+- **Prompt 模板** (`prompt/`)
+  - 存放各类 LLM 提示词模板
+  - Schema 解析、枚举值提取等相关 Prompt
+
 
 #### 3.2 知识库模块 (`knowledge/`)
 - 知识库的构建和维护
@@ -156,7 +191,93 @@ DataAgent/
 
 ## 核心功能
 
-### 1. 自然语言查询解析
+### 1. Schema 增强系统
+
+#### 1.1 枚举值增强
+
+自动识别字符串类型的枚举字段，并从数据库中提取 TOP10 最常见的值追加到字段注释中。
+
+**功能特点**:
+- ✅ 批量查询：一次查询获取所有字符串字段的枚举值
+- ✅ 智能合并：自动去重，避免与原注释中的枚举值重复
+- ✅ 完整性判断：区分"完整枚举"和"部分枚举"
+- ✅ 多数据库支持：MySQL、PostgreSQL、达梦
+- ✅ 性能优化：采样 10000 行，避免全表扫描
+
+**使用示例**:
+```python
+from DataAgent.datasource.schema_obtain import schema_obtain
+from DataAgent.datasource.schema_enhance import schema_enum_enhance
+from langchain_community.utilities import SQLDatabase
+
+# 1. 连接数据库
+uri = 'mysql+mysqlconnector://user:password@host:port/database'
+business_db = SQLDatabase.from_uri(uri)
+
+# 2. 获取表的 Schema（原始 + 解析）
+table_names = ['table1', 'table2', 'table3']
+raw_schemas_by_table, parsed_schemas_by_table = schema_obtain(business_db, table_names)
+
+# 3. 枚举值增强
+enhanced_schemas = schema_enum_enhance(parsed_schemas_by_table, business_db)
+
+# 4. 查看增强后的结果
+for table_name, table_info in enhanced_schemas.items():
+    print(f"表名: {table_name}")
+    for column in table_info['columns']:
+        print(f"  字段: {column['name']}")
+        print(f"  类型: {column['type']}")
+        print(f"  注释: {column['comment']}")
+        print()
+```
+
+**输出示例**:
+```
+字段: 工单类别
+类型: varchar(50)
+注释: 枚举类型，完整取值包括：['一般', '次紧急', '紧急']
+
+字段: 二级分类
+类型: text
+注释: 枚举类型，常见值包括：['工商(消保)', '人力保障', '邮政通信' ...]
+
+字段: 新一级分类
+类型: text
+注释: 枚举类型，常见值包括：['社会管理类', '住房和城乡建设类', ... '党政机关类'] ...
+```
+
+#### 1.2 表描述生成
+
+使用 LangChain 批量调用大模型，自动生成表的业务描述。
+
+**使用示例**:
+```python
+from DataAgent.datasource.schema_enhance import schema_table_description_enhance
+
+# 批量生成表描述
+generated_descriptions = schema_table_description_enhance(raw_schemas_by_table)
+
+# 结果格式: {表名: 表描述}
+for table_name, description in generated_descriptions.items():
+    print(f"{table_name}: {description}")
+```
+
+#### 1.3 核心函数说明
+
+**`schema_enum_enhance(parsed_schemas_by_table, business_db)`**
+- 输入: 解析后的表信息字典、SQLDatabase 实例
+- 输出: 增强后的表信息字典（枚举值已追加到字段注释）
+- 参数:
+  - `sample_rows`: 采样行数（默认 10000）
+  - `top_n`: 返回的枚举值数量（默认 10）
+  - `max_distinct_threshold`: 枚举类型判断阈值（默认 100）
+
+**`schema_table_description_enhance(raw_schemas_by_table)`**
+- 输入: {表名: CREATE TABLE 语句}
+- 输出: {表名: 表描述}
+- 使用 LangChain 的 `chain.batch()` 批量调用
+
+### 2. 自然语言查询解析
 系统接收用户的自然语言查询，通过 LLM 理解意图，自动生成可执行的工作流算子序列。
 
 **支持的算子类型**:
