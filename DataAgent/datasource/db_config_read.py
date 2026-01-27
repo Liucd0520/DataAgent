@@ -23,6 +23,7 @@ def get_database_uri(db_type, host, port, username, password, database):
         'postgresql': f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}',
         # pg8000 对中文支持更好，可以解决编码问题
         'dm': f'dm+dmPython://{username}:{password}@{host}:{port}/{database}',
+        'teledb': f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}',  
     }
     
     db_key = db_type.lower()

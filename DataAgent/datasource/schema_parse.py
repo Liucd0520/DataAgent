@@ -1,5 +1,55 @@
+
+import sys
+from pathlib import Path
+# 将项目根目录添加到 Python 路径
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 import re
 from typing import Dict, List, Tuple, Optional
+from DataAgent.datasource.chain import translate_chain
+
+
+def _contains_chinese(text: str) -> bool:
+    """
+    检测文本是否包含中文字符
+
+    Args:
+        text: 待检测的文本
+
+    Returns:
+        bool: True 表示包含中文，False 表示不包含中文
+    """
+    return bool(re.search(r'[\u4e00-\u9fff]', text))
+
+
+def _translate_field_name(field_name: str) -> str:
+    """
+    翻译字段名为英文
+
+    Args:
+        field_name: 字段名（可能是中文）
+
+    Returns:
+        str: 翻译后的英文字段名，如果字段名本身不是中文则返回原值
+    """
+    # 如果不包含中文，直接返回原值
+    if not _contains_chinese(field_name):
+        return field_name
+
+    try:
+        # 调用翻译链
+        result = translate_chain.invoke({"field_name": field_name})
+        translated = result.content.strip()
+
+        # 如果翻译结果为空，返回原字段名
+        if not translated:
+            print(f"翻译字段名 '{field_name}' 时出错: 输出为空！")
+            return field_name
+
+        return translated
+    except Exception as e:
+        print(f"翻译字段名 '{field_name}' 时出错: {str(e)}")
+        return field_name
 
 
 def parse_table_schema(schema: str) -> Dict[str, any]:
@@ -13,10 +63,13 @@ def parse_table_schema(schema: str) -> Dict[str, any]:
         字典，包含:
         - table_name: 表名
         - table_comment: 表级别的注释
-        - columns: 完整字段信息列表，每个字段包含 name, type, full_definition
+        - columns: 完整字段信息列表，每个字段包含 name, type, comment, english_name, full_definition
         - column_names: 仅字段名列表 (List[str])
         - column_types: {字段名: 类型} 的字典 (Dict[str, str])
         - sample_data_raw: 示例数据的原始字符串（未解析）
+
+    注意:
+        - english_name: 字段名的英文翻译，如果字段名本身不是中文则返回原字段名
     """
     result = {
         'table_name': '',
@@ -43,6 +96,7 @@ def parse_table_schema(schema: str) -> Dict[str, any]:
 
     parts = schema.split('\n\n/*')
     schema_body = parts[0].strip()
+
 
     # 3. 提取括号内的字段定义部分
     # 匹配到最后一个右括号（可能是 )COLLATE... 或 ）
@@ -97,11 +151,15 @@ def parse_table_schema(schema: str) -> Dict[str, any]:
                 column_type = column_type_full
                 column_comment = None
 
+            # 翻译字段名为英文（如果字段名包含中文）
+            english_name = _translate_field_name(column_name)
+
             # 添加到完整字段信息列表
             result['columns'].append({
                 'name': column_name,
                 'type': column_type,
                 'comment': column_comment,
+                'english_name': english_name,
                 'full_definition': col_def
             })
 
@@ -151,9 +209,11 @@ if __name__ == '__main__':
     # business_db = SQLDatabase.from_uri(uri)
     # table_names = ['shanghai']
 
-    test_schema = business_db.get_table_info(table_names=table_names, )
-    print(test_schema)
-    print('=' * 100)
-    # 解析
-    parsed = parse_table_schema(test_schema)
-    print(parsed)
+    # test_schema = business_db.get_table_info(table_names=table_names, )
+    # print(test_schema)
+    # print('=' * 100)
+    # # 解析
+    # parsed = parse_table_schema(test_schema)
+    # print(parsed)
+
+    print(_translate_field_name('中国'))

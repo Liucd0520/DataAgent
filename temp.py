@@ -1,10 +1,31 @@
 
-a = "[{'id': 4, 'database_info_name': '星辰二期', 'status': 0, 'database_type': 'MySQL', 'host': '172.31.24.111', 'port': 3307, 'user_name': 'root', 'database_name': '12345', 'driver': '1', 'password': 'WCLhRfXXAXuZEPRwEuK0IA==', 'pool_size': 0, 'max_overflow': 0, 'pool_tmout': 0, 'pool_recycle': 0, 'pool_pre_ping': 0, 'description': '星辰二期数据库', 'create_time': None, 'update_time': datetime.datetime(2025, 11, 12, 6, 0, 3), 'selected_tables': 'shanghai', 'is_semantic_analysis': 1, 'primary_key_name': '工单编号', 'unstructrued_column': '内容描述', 'large_step': '150', 'small_step': '10', 'window_size': '50', 'min_samples': '5', 'max_samples': '1000', 'target_table': 'shanghai', 'milvus_status': None, 'is_deleted': 1, 'user_id': 1}]"
-import ast
-import datetime
+from langchain_community.utilities import SQLDatabase
 
-# 使用 ast.literal_eval() 解析 Python 字符串表示
-result = ast.literal_eval(a)
-print("成功解析！")
-print(f"结果类型: {type(result)}")
-print(f"第一条数据: {result[0]}")
+
+
+def get_database_uri(db_type, host, port, username, password, database):
+    """根据数据库类型生成连接 URI"""
+    
+    db_configs = {
+        'mysql': f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}',
+        'postgresql': f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}',
+        # pg8000 对中文支持更好，可以解决编码问题
+        'dm': f'dm+dmPython://{username}:{password}@{host}:{port}/{database}',
+        'teledb': f'postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}',       
+    }
+    
+    db_key = db_type.lower()
+    if db_key not in db_configs:
+        raise ValueError(
+            f"不支持的数据库类型: '{db_type}'。"
+            f"当前仅支持: {', '.join(db_configs.keys())}"
+        )
+    
+    return db_configs[db_key]
+
+
+business_db_uri = get_database_uri(db_type='teledb', host='172.31.24.112', port=5452, username='pguser', password='my-secret-pw', database='test')
+business_db = SQLDatabase.from_uri(business_db_uri)
+
+res = business_db.run('select * from "shanghai" limit 10')
+print(res)
