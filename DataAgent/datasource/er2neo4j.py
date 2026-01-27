@@ -5,9 +5,7 @@ from eralchemy.main import *
 import pygraphviz as pgv
 import json 
 from bs4 import BeautifulSoup
-
-uri = "mysql+mysqlconnector://root:liucd123@127.0.0.1:3306/12345"
-    
+from neo4j import GraphDatabase 
 
 def generate_dot_from_uri(uri, title):
     tables, relationships = all_to_intermediary(uri,)
@@ -107,5 +105,46 @@ def dot_to_json_pygraphviz(dot_text, json_file_path=None):
     return json_data
 
 
-dot_text = generate_dot_from_uri(uri, '刘长东')
-dot_to_json_pygraphviz(dot_text, 'a.json')
+
+
+def upload_to_neo4j(json_data, uri, username=None, password=None, task='update'):
+    
+    if username:
+        driver = GraphDatabase.driver(uri, auth=(username, str(password)))
+    else:
+        driver = GraphDatabase.driver(uri)
+    session = driver.session()
+    if task == 'init':
+        session.run("MATCH (n) DETACH DELETE n")
+    
+    # 数据库节点
+    session.run(f"MERGE (n:Database {{name: '{json_data['name']}'}})")
+
+    # 表节点
+    for table in json_data['nodes']:
+        session.run(f"MERGE (n:Table {{name: '{table['name']}', database: '{json_data['name']}'}})")
+        session.run(f"MATCH (a:Database), (b:Table) WHERE a.name = '{json_data['name']}' AND b.name = '{table['name']}' AND b.database = '{json_data['name']}' MERGE (a)-[:TABLE]->(b) RETURN a,b")
+
+        # 字段节点
+        for column in table['attributes']:
+            constraints = ', '.join(column['constraints'])
+            print(f"DATABASE: {json_data['name']}, TABLE: {table['name']}, COLUMN: {column['name']}")
+            session.run(f"MERGE (n:Column {{name: '{column['name']}', type: '{column['type']}', is_primary: '{column['is_primary']}', constraints: '{constraints}', database: '{json_data['name']}', table: '{table['name']}'}})")
+            session.run(f"MATCH (a:Table), (b:Column) WHERE a.name = '{table['name']}' AND b.name = '{column['name']}' AND a.database = '{json_data['name']}' AND b.database = '{json_data['name']}' AND b.table = '{table['name']}' MERGE (a)-[:COLUMN]->(b) RETURN a,b")
+    
+    # 额外关系
+    for relation in json_data['edges']:
+  
+        print(f"{relation['source']}.{relation['attributes']['tailport']} TO {relation['target']}.{relation['attributes']['headport']}")
+        session.run(f"MATCH (a:Column), (b:Column) WHERE b.name = '{relation['attributes']['tailport']}' AND b.table = '{relation['source']}' AND a.name = '{relation['attributes']['headport']}' AND a.table = '{relation['target']}' MERGE (a)-[:IS]->(b) RETURN a,b")
+
+
+if __name__ == '__main__':
+    
+    db_uri = "mysql+mysqlconnector://root:liucd123@127.0.0.1:3306/12345"
+    neo4j_uri =  f'bolt://172.31.24.111:7689'
+    dot_text = generate_dot_from_uri(db_uri, '刘长东')
+    json_data = dot_to_json_pygraphviz(dot_text, 'a.json')
+    json_data['name'] = '12345' # database节点的name
+    upload_to_neo4j(json_data, neo4j_uri, username='neo4j', password='12345678', task='init')
+

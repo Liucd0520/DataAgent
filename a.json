@@ -1,0 +1,816 @@
+{
+  "type": "graph",
+  "name": null,
+  "graph_attributes": {
+    "label": "刘长东",
+    "labelloc": "t",
+    "rankdir": "LR"
+  },
+  "nodes": [
+    {
+      "name": "hongkou",
+      "attributes": [
+        {
+          "name": "上报地址",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "主处置部门",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "主责部门",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事实认定",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事项名称",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事项大类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事项小类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事项标签",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事项类别",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "办理描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "协同处置部门",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "协同部门",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "原编号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "发现时间",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "处置计时",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "实际地址",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单类型",
+          "type": "TEXT COLLATE \"utf8mb4_0900_ai_ci\"",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "市紧急程度",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "所属居委",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "所属片区",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "所属街道",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "收单时间",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "是否满意区回访",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "是否解决区回访",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案件描述/内容描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案件整体计时",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案件期限",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案件来源/信息来源",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案件编号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "派遣时间",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "状态",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "紧急程度",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "结案时间",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "联系人",
+          "type": "DOUBLE",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "联系电话",
+          "type": "DOUBLE",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求认定",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "pudong",
+      "attributes": [
+        {
+          "name": "三级主责单位",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "业务类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "事实认定",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "二级主责单位",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "先联情况",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "发现时间",
+          "type": "DATETIME",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "发生地址",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "发生街镇",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "处理结果",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "居村",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单号",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "案卷来源",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "渠道来源",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "满意度情况",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "热线一级",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "热线三级",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "热线二级",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "热线四级",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "状态",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "结案意见",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "联系电话",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求解决情况",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求认定",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "问题描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "query_history",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "is_primary": true,
+          "constraints": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "execution_time",
+          "type": "INTEGER",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "generated_sql",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "llm_response",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "parsed_sql",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "query_status",
+          "type": "ENUM",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "request_id",
+          "type": "VARCHAR(100)",
+          "is_primary": false,
+          "constraints": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "result_count",
+          "type": "INTEGER",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "session_id",
+          "type": "VARCHAR(100)",
+          "is_primary": false,
+          "constraints": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "user_question",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": [
+            "NOT NULL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shanghai",
+      "attributes": [
+        {
+          "name": "一级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "三级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "主办单位",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "二级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "内容描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "四级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "处理描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "客户类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单生成时间",
+          "type": "DATETIME",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单类别",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单编号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新一级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新三级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新二级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新五级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新四级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "是否匿名",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "服务类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求区域",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求地址",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "通话编号",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "shanghai_copy1",
+      "attributes": [
+        {
+          "name": "一级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "三级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "主办单位",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "二级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "内容描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "四级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "处理描述",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "客户类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单生成时间",
+          "type": "DATETIME",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单类别",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工单编号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "工号",
+          "type": "BIGINT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新一级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新三级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新二级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新五级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "新四级分类",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "是否匿名",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "服务类型",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求区域",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "诉求地址",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "通话编号",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "name": "user_session",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "is_primary": true,
+          "constraints": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "client_ip",
+          "type": "VARCHAR(45)",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "connect_time",
+          "type": "TIMESTAMP",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "disconnect_time",
+          "type": "TIMESTAMP",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "last_query_time",
+          "type": "TIMESTAMP",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "query_count",
+          "type": "INTEGER",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "session_id",
+          "type": "VARCHAR(100)",
+          "is_primary": false,
+          "constraints": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "ENUM",
+          "is_primary": false,
+          "constraints": []
+        },
+        {
+          "name": "user_agent",
+          "type": "TEXT",
+          "is_primary": false,
+          "constraints": []
+        }
+      ]
+    }
+  ],
+  "edges": []
+}
