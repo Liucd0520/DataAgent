@@ -209,8 +209,8 @@ if __name__ == '__main__':
     # business_db = SQLDatabase.from_uri(uri)
     # table_names = ['shanghai']
 
-    # test_schema = business_db.get_table_info(table_names=table_names, )
-    # print(test_schema)
+    test_schema = business_db.get_table_info(table_names=table_names, )
+    print(test_schema)
     # print('=' * 100)
     # # 解析
     # parsed = parse_table_schema(test_schema)

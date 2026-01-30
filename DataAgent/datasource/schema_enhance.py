@@ -198,6 +198,7 @@ def _get_table_enum_values_batch(business_db: SQLDatabase, table_name: str, colu
             return {}
 
         # 步骤1：一次性统计所有字段的不重复值数量
+        
         distinct_counts_query = f"""
         SELECT {', '.join([f'COUNT(DISTINCT {quote}{col}{quote}) AS {quote}{col}{quote}' for col in column_names])}
         FROM (
@@ -349,8 +350,9 @@ if __name__ == '__main__':
     uri = f'mysql+mysqlconnector://root:liucd123@127.0.0.1:3306/12345'
     business_db = SQLDatabase.from_uri(uri)
     table_names = ['pudong', 'shanghai', 'hongkou']
+    print('--')
     raw_schemas_by_table, parsed_schemas_by_table = schema_obtain(business_db, table_names)
-    
+    print('----')
     # 测试表描述生成
     # generated_descriptions = schema_table_description_enhance(raw_schemas_by_table)
 
@@ -364,4 +366,4 @@ if __name__ == '__main__':
 
     # 测试schema增强功能
     res = schema_enum_enhance(parsed_schemas_by_table, business_db)
-    print(res['shanghai']['columns'])
+    print('==', res['shanghai']['columns'])

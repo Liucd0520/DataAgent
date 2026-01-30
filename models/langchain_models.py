@@ -38,3 +38,6 @@ def embedding_bge(query_list):
     embedding_list = [output_data.embedding for output_data in  responses.data]
     
     return np.array(embedding_list)
+
+if __name__ == '__main__':
+    print(pro_llm.invoke('hello'))

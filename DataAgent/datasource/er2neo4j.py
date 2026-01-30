@@ -106,7 +106,6 @@ def dot_to_json_pygraphviz(dot_text, json_file_path=None):
 
 
 
-
 def upload_to_neo4j(json_data, uri, username=None, password=None, task='update'):
     
     if username:
@@ -140,11 +139,12 @@ def upload_to_neo4j(json_data, uri, username=None, password=None, task='update')
 
 
 if __name__ == '__main__':
-    
-    db_uri = "mysql+mysqlconnector://root:liucd123@127.0.0.1:3306/12345"
+    from urllib.parse import quote_plus
+    db_uri = f"mysql+mysqlconnector://ai_test:{quote_plus('Netcare@13579')}@172.31.26.206:3306/netcaredb_ai"
     neo4j_uri =  f'bolt://172.31.24.111:7689'
     dot_text = generate_dot_from_uri(db_uri, '刘长东')
     json_data = dot_to_json_pygraphviz(dot_text, 'a.json')
     json_data['name'] = '12345' # database节点的name
-    upload_to_neo4j(json_data, neo4j_uri, username='neo4j', password='12345678', task='init')
+    # upload_to_neo4j(json_data, neo4j_uri, username='neo4j', password='12345678', task='init')
 
+    # 获取neo4j的schema可以用langchain_neo4j这个库 Neo4jGraph类对应的schema方法
