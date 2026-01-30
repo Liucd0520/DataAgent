@@ -13,6 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.app_schema import router as schema_router
 from api.app_web_search import router as web_search_router
+from api.app_milvus import router as milvus_router
 
 
 # 创建 FastAPI 应用实例
@@ -35,6 +36,7 @@ app.add_middleware(
 # 注册路由
 app.include_router(schema_router)
 app.include_router(web_search_router)
+app.include_router(milvus_router)
 
 
 @app.get("/")
